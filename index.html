@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>¡Feliz Cumpleaños Papá! 🎂</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0; height:100vh;
+  background:linear-gradient(135deg,#1e3c72,#2a5298);
+  display:flex; justify-content:center; align-items:center;
+  font-family:'Quicksand', sans-serif; overflow:hidden;
+}
+
+.contenedor{ width:360px; height:520px; perspective:1600px; }
+
+.carta{
+  width:100%; height:100%; position:relative;
+  transform-style:preserve-3d; transition:transform 1.5s ease;
+  cursor:pointer;
+}
+
+.carta.abierta{ transform:rotateY(-175deg); }
+
+.portada, .interior{
+  position:absolute; width:100%; height:100%;
+  border-radius:20px; backface-visibility:hidden;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4); padding:25px; box-sizing:border-box;
+}
+
+.portada{
+  background:linear-gradient(135deg,#2c3e50,#4ca1af);
+  color:white; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; border: 5px solid rgba(255,255,255,0.8);
+}
+.portada span{ font-size:4rem; }
+.portada h2 { font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin: 10px 0; }
+
+.interior{
+  background:#fdfdfd; color:#333; transform:rotateY(180deg);
+  overflow-y:auto; display: flex; flex-direction: column;
+}
+
+h1{ text-align:center; color:#1e3c72; font-family: 'Dancing Script', cursive; margin: 0 0 10px 0; }
+
+.mensaje{ font-size:1.05rem; line-height:1.6; text-align: center; flex-grow: 1; }
+
+.firma{
+  margin-top:15px; text-align:right; font-style:italic;
+  color:#1e3c72; font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+}
+
+#btnSonido {
+  background: #1e3c72; color: white; border: none;
+  padding: 10px; border-radius: 10px; font-weight: bold;
+  cursor: pointer; margin-top: 10px; width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+  <div class="carta" id="miCarta" onclick="abrirCarta()">
+
+    <div class="portada">
+      <span>🎁</span>
+      <h2>Para mi Papá</h2>
+      <p>Toca para abrir la sorpresa ✨</p>
+    </div>
+
+    <div class="interior">
+      <h1>🎈 ¡Feliz Cumpleaños! 🎈</h1>
+
+      <div class="mensaje">
+      Papá, hoy celebro tu vida y agradezco por cada enseñanza y por tu apoyo incondicional 👔<br><br>
+      Gracias por ser mi guía, por tu fuerza y por todo el esfuerzo que haces cada día por nosotros. Eres mi ejemplo a seguir 🌟<br><br>
+      Que Dios te conceda mucha salud, muchos años más de vida y que este nuevo año esté lleno de éxitos y alegrías 🙏✨<br><br>
+      ¡Te quiero mucho! Disfruta al máximo tu día.
+      </div>
+
+      <div class="firma">
+        Con mucho cariño y respeto 💙<br>
+        Tu hijo(a)
+      </div>
+      
+      <button id="btnSonido" onclick="tocarMusica(event)">🎵 ACTIVAR MÚSICA</button>
+    </div>
+
+  </div>
+</div>
+
+<audio id="musica" loop>
+  <source src="https://www.chosic.com/wp-content/uploads/2021/07/Happy-Birthday-To-You-Jazz-Version.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function abrirCarta(){
+  const carta = document.getElementById('miCarta');
+  const musica = document.getElementById('musica');
+  
+  if(!carta.classList.contains('abierta')){
+    carta.classList.add('abierta');
+    lanzarConfeti();
+    musica.play().catch(() => {
+        console.log("El navegador requiere interacción para el sonido.");
+    });
+  }
+}
+
+function tocarMusica(e) {
+  e.stopPropagation();
+  const musica = document.getElementById('musica');
+  const btn = document.getElementById('btnSonido');
+  
+  if (musica.paused) {
+    musica.play();
+    btn.innerHTML = "🎶 SONANDO...";
+    btn.style.background = "#4caf50";
+  } else {
+    musica.pause();
+    btn.innerHTML = "🎵 REANUDAR MÚSICA";
+    btn.style.background = "#1e3c72";
+  }
+}
+
+function lanzarConfeti() {
+  var end = Date.now() + (5 * 1000);
+  (function frame() {
+    // Confeti azul y plateado para papá
+    confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0 }, colors: ['#1e3c72', '#4ca1af', '#ffffff'] });
+    confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1 }, colors: ['#1e3c72', '#4ca1af', '#ffffff'] });
+    if (Date.now() < end) requestAnimationFrame(frame);
+  }());
+}
+</script>
+
+</body>
+</html>
